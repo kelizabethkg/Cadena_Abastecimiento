@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAUCE — Evolución de la cadena de abastecimiento</title>
+<meta name="description" content="CAUCE acompaña la evolución de tu cadena de suministro: del comercio artesanal a la cadena inteligente.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  :root{
+    --crema:      #F4EEE0;
+    --blanco-roto:#FBF8F2;
+    --verde-bosque:#1F3A2E;
+    --verde-bosque-2:#28483A;
+    --verde-menta: #AFCEB8;
+    --verde-menta-soft: #E3EDE1;
+    --grafito:    #2B2B26;
+    --linea:      #D9CFBB;
+
+    --font-display: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --container: 1160px;
+    --gutter: 24px;
+
+    --ease: cubic-bezier(.16,.8,.28,1);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--crema);
+    color:var(--grafito);
+    font-family:var(--font-body);
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+  h1,h2,h3,h4{
+    font-family:var(--font-display);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0;
+    color:var(--verde-bosque);
+  }
+  p{ margin:0; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  :focus-visible{
+    outline:2px solid var(--verde-bosque);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{
+    max-width:var(--container);
+    margin:0 auto;
+    padding-left:var(--gutter);
+    padding-right:var(--gutter);
+  }
+
+  .eyebrow{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--verde-bosque-2);
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--verde-bosque-2);
+    display:inline-block;
+  }
+
+  section{ padding:88px 0; }
+  @media(min-width:768px){ section{ padding:128px 0; } }
+
+  .section-head{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-size:clamp(2rem,5vw,2.9rem);
+    line-height:1.08;
+    font-weight:300;
+    margin-top:.9em;
+  }
+  .section-head h2 strong{ font-weight:800; }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+    padding:.95em 1.9em;
+    border-radius:100px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:.92rem;
+    border:1px solid var(--verde-bosque);
+    transition:background .35s var(--ease), color .35s var(--ease), transform .25s var(--ease);
+  }
+  .btn-fill{ background:var(--verde-bosque); color:var(--blanco-roto); }
+  .btn-fill:hover{ background:var(--verde-bosque-2); transform:translateY(-2px); }
+  .btn-line{ background:transparent; color:var(--verde-bosque); }
+  .btn-line:hover{ background:var(--verde-bosque); color:var(--blanco-roto); }
+
+  /* ---------- Header ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:22px 0;
+    transition:background .4s var(--ease), padding .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  header.scrolled{
+    background:rgba(244,238,224,.92);
+    backdrop-filter:blur(10px);
+    padding:14px 0;
+    box-shadow:0 1px 0 var(--linea);
+  }
+  header .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:1.15rem;
+    letter-spacing:.06em;
+    color:var(--verde-bosque);
+  }
+  .logo span{ color:var(--verde-bosque); font-weight:200; }
+
+  nav.primary-nav{ display:none; }
+  @media(min-width:900px){
+    nav.primary-nav{
+      display:flex;
+      gap:2.4rem;
+      align-items:center;
+    }
+    nav.primary-nav a{
+      font-size:.9rem;
+      font-weight:500;
+      position:relative;
+      padding:.2em 0;
+    }
+    nav.primary-nav a::after{
+      content:"";
+      position:absolute; left:0; right:100%; bottom:-2px;
+      height:1px; background:var(--verde-bosque);
+      transition:right .35s var(--ease);
+    }
+    nav.primary-nav a:hover::after{ right:0; }
+  }
+
+  .nav-actions{ display:flex; align-items:center; gap:16px; }
+  .nav-actions .btn{ display:none; }
+  @media(min-width:900px){ .nav-actions .btn{ display:inline-flex; padding:.7em 1.6em; font-size:.82rem; } }
+
+  .menu-toggle{
+    background:none; border:none; padding:6px;
+    display:flex; flex-direction:column; gap:5px;
+    z-index:200;
+  }
+  @media(min-width:900px){ .menu-toggle{ display:none; } }
+  .menu-toggle span{
+    width:24px; height:1.5px; background:var(--verde-bosque);
+    transition:transform .35s var(--ease), opacity .35s var(--ease);
+  }
+  .menu-toggle.open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+  .menu-toggle.open span:nth-child(2){ opacity:0; }
+  .menu-toggle.open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+
+  .mobile-menu{
+    position:fixed; inset:0;
+    background:var(--verde-bosque);
+    display:flex; flex-direction:column;
+    justify-content:center;
+    padding:0 40px;
+    transform:translateY(-100%);
+    transition:transform .5s var(--ease);
+    z-index:150;
+  }
+  .mobile-menu.open{ transform:translateY(0); }
+  .mobile-menu a{
+    font-family:var(--font-display);
+    font-weight:300;
+    font-size:2.2rem;
+    color:var(--blanco-roto);
+    padding:.35em 0;
+    border-bottom:1px solid rgba(251,248,242,.15);
+  }
+  @media(min-width:900px){ .mobile-menu{ display:none; } }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:170px 0 100px;
+    position:relative;
+  }
+  @media(min-width:768px){ .hero{ padding:220px 0 130px; } }
+
+  .hero-grid{
+    display:grid;
+    gap:40px;
+  }
+  @media(min-width:900px){
+    .hero-grid{
+      grid-template-columns:1.4fr .9fr;
+      align-items:end;
+      gap:60px;
+    }
+  }
+  .hero h1{
+    font-size:clamp(2.6rem,7.5vw,5.1rem);
+    line-height:1.02;
+    font-weight:300;
+    margin-top:.7em;
+  }
+  .hero h1 strong{ font-weight:800; display:block; }
+  .hero-side{
+    display:flex; flex-direction:column;
+    gap:28px;
+  }
+  .hero-side p{
+    font-size:1.05rem;
+    color:var(--verde-bosque-2);
+    max-width:38ch;
+  }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; }
+
+  .hero-line{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--linea);
+    padding-top:22px;
+    gap:20px;
+  }
+  .hero-line div{ display:none; }
+  .hero-line div:first-child{ display:block; }
+  @media(min-width:640px){ .hero-line div{ display:block; } }
+  .hero-line .num{
+    font-family:var(--font-display);
+    font-weight:200;
+    font-size:2.1rem;
+    color:var(--verde-bosque);
+  }
+  .hero-line .lbl{
+    font-size:.78rem;
+    color:var(--verde-bosque-2);
+    max-width:22ch;
+  }
+
+  /* ---------- Evolución / Timeline ---------- */
+  .timeline{ background:var(--crema); }
+  .era{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+    padding:44px 0;
+    border-top:1px solid var(--linea);
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .8s var(--ease), transform .8s var(--ease);
+  }
+  .era.in-view{ opacity:1; transform:translateY(0); }
+  .era:last-child{ border-bottom:1px solid var(--linea); }
+
+  @media(min-width:860px){
+    .era{
+      grid-template-columns:140px 1fr 1.1fr;
+      align-items:start;
+      gap:32px;
+      padding:56px 0;
+    }
+  }
+
+  .era-num{
+    font-family:var(--font-display);
+    font-weight:200;
+    font-size:4.6rem;
+    line-height:.8;
+    color:transparent;
+    -webkit-text-stroke:1.4px var(--verde-menta);
+    letter-spacing:-.02em;
+  }
+  @media(min-width:860px){ .era-num{ font-size:5.4rem; } }
+
+  .era-body h3{
+    font-size:1.5rem;
+    font-weight:800;
+    margin-bottom:.4em;
+  }
+  .era-year{
+    display:inline-block;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--verde-bosque-2);
+    margin-bottom:.9em;
+  }
+  .era-desc{
+    color:var(--grafito);
+    font-size:.98rem;
+    max-width:52ch;
+  }
+
+  /* ---------- Servicios ---------- */
+  .servicios{ background:var(--blanco-roto); }
+  .servicios-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1px;
+    background:var(--linea);
+    border:1px solid var(--linea);
+  }
+  @media(min-width:640px){ .servicios-grid{ grid-template-columns:1fr 1fr; } }
+  @media(min-width:1024px){ .servicios-grid{ grid-template-columns:repeat(4,1fr); } }
+
+  .servicio{
+    background:var(--blanco-roto);
+    padding:40px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    transition:background .4s var(--ease);
+  }
+  .servicio:hover{ background:var(--verde-menta-soft); }
+  .servicio .ico{
+    width:42px; height:42px;
+  }
+  .servicio h4{
+    font-size:1.12rem;
+    font-weight:700;
+  }
+  .servicio p{
+    font-size:.92rem;
+    color:var(--verde-bosque-2);
+  }
+
+  /* ---------- Nosotros ---------- */
+  .nosotros{
+    background:var(--verde-menta-soft);
+  }
+  .nosotros-grid{
+    display:grid;
+    gap:48px;
+  }
+  @media(min-width:900px){
+    .nosotros-grid{
+      grid-template-columns:1fr 1fr;
+      align-items:center;
+      gap:80px;
+    }
+  }
+  .nosotros-copy p{
+    font-size:1.05rem;
+    color:var(--grafito);
+    margin-bottom:1.3em;
+    max-width:52ch;
+  }
+  .stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+  }
+  .stat .num{
+    font-family:var(--font-display);
+    font-weight:300;
+    font-size:2.6rem;
+    color:var(--verde-bosque);
+  }
+  .stat .lbl{
+    font-size:.82rem;
+    color:var(--verde-bosque-2);
+    margin-top:.3em;
+  }
+
+  /* ---------- Contacto ---------- */
+  .contacto-grid{
+    display:grid;
+    gap:56px;
+  }
+  @media(min-width:900px){
+    .contacto-grid{ grid-template-columns:.9fr 1.1fr; gap:80px; }
+  }
+  .contacto-info p{
+    color:var(--verde-bosque-2);
+    max-width:40ch;
+    margin-bottom:2em;
+  }
+  .contacto-info ul{ display:flex; flex-direction:column; gap:14px; }
+  .contacto-info li{
+    display:flex; flex-direction:column;
+    border-top:1px solid var(--linea);
+    padding-top:12px;
+    font-size:.92rem;
+  }
+  .contacto-info li span{
+    font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--verde-bosque-2); margin-bottom:.3em;
+  }
+
+  form{ display:flex; flex-direction:column; gap:30px; }
+  .field{ position:relative; display:flex; flex-direction:column; }
+  .field label{
+    font-size:.78rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--verde-bosque-2);
+    margin-bottom:.7em;
+  }
+  .field input, .field textarea{
+    border:none;
+    border-bottom:1px solid var(--linea);
+    background:transparent;
+    padding:.5em 0;
+    font-family:var(--font-body);
+    font-size:1rem;
+    color:var(--grafito);
+    transition:border-color .3s var(--ease);
+    resize:none;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none;
+    border-bottom-color:var(--verde-bosque);
+  }
+  .form-row{ display:grid; grid-template-columns:1fr; gap:30px; }
+  @media(min-width:600px){ .form-row{ grid-template-columns:1fr 1fr; } }
+
+  .form-status{
+    font-size:.9rem;
+    color:var(--verde-bosque);
+    min-height:1.4em;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--verde-bosque);
+    color:var(--blanco-roto);
+    padding:64px 0 28px;
+  }
+  .footer-top{
+    display:grid;
+    gap:40px;
+    padding-bottom:48px;
+    border-bottom:1px solid rgba(251,248,242,.15);
+  }
+  @media(min-width:768px){
+    .footer-top{ grid-template-columns:1.2fr 1fr 1fr; }
+  }
+  footer .logo{ color:var(--blanco-roto); }
+  .footer-desc{
+    color:rgba(251,248,242,.65);
+    font-size:.92rem;
+    max-width:36ch;
+    margin-top:16px;
+  }
+  .footer-col h5{
+    font-size:.74rem; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(251,248,242,.55);
+    margin-bottom:16px;
+  }
+  .footer-col ul{ display:flex; flex-direction:column; gap:10px; }
+  .footer-col a{ font-size:.92rem; color:rgba(251,248,242,.85); }
+  .footer-col a:hover{ color:var(--verde-menta); }
+  .footer-bottom{
+    display:flex; flex-direction:column; gap:10px;
+    padding-top:24px;
+    font-size:.78rem;
+    color:rgba(251,248,242,.45);
+  }
+  @media(min-width:640px){
+    .footer-bottom{ flex-direction:row; justify-content:space-between; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; scroll-behavior:auto !important; }
+    .era{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="wrap">
+    <a href="#inicio" class="logo">CAUCE<span>.</span></a>
+    <nav class="primary-nav" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#evolucion">Evolución</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#contacto" class="btn btn-fill">Hablemos</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Navegación móvil">
+  <a href="#inicio">Inicio</a>
+  <a href="#evolucion">Evolución</a>
+  <a href="#servicios">Servicios</a>
+  <a href="#nosotros">Nosotros</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+
+<main>
+
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">Consultoría en cadena de suministro</span>
+          <h1>De las rutas comerciales<strong>a la cadena inteligente.</strong></h1>
+        </div>
+        <div class="hero-side">
+          <p>Acompañamos a las empresas a leer su cadena de abastecimiento como lo que es: un organismo vivo que ha evolucionado durante siglos y que hoy exige visibilidad, resiliencia y sostenibilidad.</p>
+          <div class="hero-actions">
+            <a href="#evolucion" class="btn btn-line">Ver la evolución</a>
+            <a href="#contacto" class="btn btn-fill">Agendar diagnóstico</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-line">
+        <div>
+          <div class="num">05</div>
+          <div class="lbl">Etapas que marcan la historia del abastecimiento</div>
+        </div>
+        <div>
+          <div class="num">+12</div>
+          <div class="lbl">Años acompañando cadenas de suministro</div>
+        </div>
+        <div>
+          <div class="num">30</div>
+          <div class="lbl">Países donde hemos trazado rutas logísticas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline" id="evolucion">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Evolución</span>
+        <h2>Cinco eras que redefinieron <strong>cómo se mueven los bienes.</strong></h2>
+      </div>
+
+      <div class="eras">
+        <article class="era">
+          <div class="era-num">01</div>
+          <div class="era-body">
+            <span class="era-year">Antes del siglo XVIII</span>
+            <h3>Era artesanal</h3>
+          </div>
+          <p class="era-desc">El intercambio ocurre por rutas comerciales y gremios locales. La producción responde a pedidos puntuales y la trazabilidad depende, sobre todo, de la confianza personal entre comerciantes.</p>
+        </article>
+
+        <article class="era">
+          <div class="era-num">02</div>
+          <div class="era-body">
+            <span class="era-year">Siglo XVIII – XIX</span>
+            <h3>Revolución industrial</h3>
+          </div>
+          <p class="era-desc">La producción en masa y el ferrocarril conectan fábricas con mercados distantes. La logística nace como una función propia, separada por primera vez de la manufactura.</p>
+        </article>
+
+        <article class="era">
+          <div class="era-num">03</div>
+          <div class="era-body">
+            <span class="era-year">Siglo XX</span>
+            <h3>Logística moderna</h3>
+          </div>
+          <p class="era-desc">La contenedorización y la estandarización de rutas marítimas habilitan la globalización. El just-in-time reduce inventarios y obliga a sincronizar cada eslabón con precisión.</p>
+        </article>
+
+        <article class="era">
+          <div class="era-num">04</div>
+          <div class="era-body">
+            <span class="era-year">2000 – 2015</span>
+            <h3>Era digital</h3>
+          </div>
+          <p class="era-desc">Los sistemas ERP, el código de barras y el RFID dan visibilidad en tiempo real. El comercio electrónico redefine las expectativas de entrega y velocidad.</p>
+        </article>
+
+        <article class="era">
+          <div class="era-num">05</div>
+          <div class="era-body">
+            <span class="era-year">Actualidad</span>
+            <h3>Cadena inteligente</h3>
+          </div>
+          <p class="era-desc">Inteligencia artificial predictiva, IoT, gemelos digitales y trazabilidad con blockchain convergen con la sostenibilidad como criterio central de diseño.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="servicios" id="servicios">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Servicios</span>
+        <h2>Herramientas para <strong>la etapa en la que estás hoy.</strong></h2>
+      </div>
+
+      <div class="servicios-grid">
+        <div class="servicio">
+          <svg class="ico" viewBox="0 0 42 42" fill="none" stroke="#1F3A2E" stroke-width="1.3"><circle cx="21" cy="21" r="16"/><path d="M21 12v9l6 4"/></svg>
+          <h4>Diagnóstico de cadena</h4>
+          <p>Mapeo integral de flujos, cuellos de botella y oportunidades de ahorro en cada eslabón.</p>
+        </div>
+        <div class="servicio">
+          <svg class="ico" viewBox="0 0 42 42" fill="none" stroke="#1F3A2E" stroke-width="1.3"><rect x="8" y="8" width="26" height="26" rx="2"/><path d="M8 18h26M18 8v26"/></svg>
+          <h4>Transformación digital</h4>
+          <p>Implementación de IoT, analítica predictiva y gemelos digitales para operar con datos en vivo.</p>
+        </div>
+        <div class="servicio">
+          <svg class="ico" viewBox="0 0 42 42" fill="none" stroke="#1F3A2E" stroke-width="1.3"><path d="M21 7c6 4 10 8 10 15a10 10 0 0 1-20 0c0-7 4-11 10-15Z"/></svg>
+          <h4>Sostenibilidad y trazabilidad</h4>
+          <p>Reducción de huella de carbono y cumplimiento ESG con evidencia verificable extremo a extremo.</p>
+        </div>
+        <div class="servicio">
+          <svg class="ico" viewBox="0 0 42 42" fill="none" stroke="#1F3A2E" stroke-width="1.3"><path d="M21 6l13 6v9c0 8-5.5 13-13 15C13.5 34 8 29 8 21v-9l13-6Z"/></svg>
+          <h4>Resiliencia y riesgo</h4>
+          <p>Diversificación de proveedores y planes de contingencia frente a interrupciones globales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nosotros" id="nosotros">
+    <div class="wrap">
+      <div class="nosotros-grid">
+        <div class="nosotros-copy">
+          <span class="eyebrow">Nosotros</span>
+          <h2 style="margin-top:.9em; font-weight:300; font-size:clamp(1.8rem,4vw,2.4rem);">Entendemos la cadena de suministro <strong style="font-weight:800;">como una historia en curso.</strong></h2>
+          <p style="margin-top:1.4em;">Somos un equipo de consultores especializados en logística y operaciones. Creemos que cada cadena de abastecimiento arrastra las capas de las eras que la precedieron, y que optimizarla hoy exige entender de dónde viene tanto como hacia dónde va.</p>
+          <p>Trabajamos junto a equipos de operaciones, compras y sostenibilidad para diseñar cadenas más visibles, resilientes y responsables con su entorno.</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="num">+80</div><div class="lbl">Cadenas de suministro optimizadas</div></div>
+          <div class="stat"><div class="num">30</div><div class="lbl">Países con presencia de proyectos</div></div>
+          <div class="stat"><div class="num">98%</div><div class="lbl">Clientes que renuevan mandato</div></div>
+          <div class="stat"><div class="num">+12</div><div class="lbl">Años de trayectoria en la industria</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="wrap">
+      <div class="contacto-grid">
+        <div class="contacto-info">
+          <span class="eyebrow">Contacto</span>
+          <h2 style="margin-top:.9em; font-weight:300; font-size:clamp(1.8rem,4vw,2.4rem);">Conversemos sobre <strong style="font-weight:800;">la próxima etapa de tu cadena.</strong></h2>
+          <p style="margin-top:1.2em;">Cuéntanos en qué punto está tu operación y te contactamos para agendar un diagnóstico inicial sin costo.</p>
+          <ul>
+            <li><span>Correo</span>hola@cauce.co</li>
+            <li><span>Teléfono</span>+51 999 123 456</li>
+            <li><span>Oficina</span>Piura, Perú — atención remota en toda la región</li>
+          </ul>
+        </div>
+
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="empresa">Empresa</label>
+              <input type="text" id="empresa" name="empresa" autocomplete="organization">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" required autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+            </div>
+          </div>
+          <div class="field">
+            <label for="mensaje">Cuéntanos sobre tu cadena de suministro</label>
+            <textarea id="mensaje" name="mensaje" rows="3" required></textarea>
+          </div>
+          <div style="display:flex; align-items:center; gap:24px; flex-wrap:wrap;">
+            <button type="submit" class="btn btn-fill">Enviar mensaje</button>
+            <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a href="#inicio" class="logo">CAUCE<span>.</span></a>
+        <p class="footer-desc">Consultoría en evolución de cadenas de abastecimiento: del comercio artesanal a la operación inteligente.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#evolucion">Evolución</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li><a href="mailto:hola@cauce.co">hola@cauce.co</a></li>
+          <li><a href="tel:+51999123456">+51 999 123 456</a></li>
+          <li><a href="#contacto">Agendar diagnóstico</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CAUCE. Todos los derechos reservados.</span>
+      <span>Piura, Perú</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header background on scroll
+  const header = document.getElementById('site-header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+  document.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.classList.toggle('open', isOpen);
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    menuToggle.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }));
+
+  // Scroll reveal for eras
+  const eras = document.querySelectorAll('.era');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    eras.forEach(el => io.observe(el));
+  } else {
+    eras.forEach(el => el.classList.add('in-view'));
+  }
+
+  // Contact form (front-end only, no backend)
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      status.textContent = 'Por favor completa los campos obligatorios.';
+      status.style.color = '#B5502E';
+      return;
+    }
+    status.style.color = '';
+    status.textContent = 'Gracias, hemos recibido tu mensaje. Te contactaremos pronto.';
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
